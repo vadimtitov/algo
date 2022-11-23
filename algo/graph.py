@@ -2,7 +2,7 @@
 
 import enum
 import queue
-from typing import Union, Dict, Set, Generator, List, Optional
+from typing import Union, Generator
 
 NodeVal = Union[int, float, str]
 
@@ -17,7 +17,7 @@ class TraverseMethod(enum.Enum):
 class Graph:
     """Adjacency dict graph."""
 
-    _nodes: Dict[NodeVal, Set[NodeVal]] = {}
+    _nodes: dict[NodeVal, set[NodeVal]] = {}
 
     def __init__(self, directed: bool = False) -> None:
         """Init."""
@@ -34,10 +34,7 @@ class Graph:
     def __repr__(self) -> str:
         """Get graph string representation."""
         return (
-            "\n".join(
-                f"{k.rjust(15)}: {', '.join(i for i in v)}"
-                for k, v in self._nodes.items()
-            )
+            "\n".join(f"{k.rjust(15)}: {', '.join(i for i in v)}" for k, v in self._nodes.items())
             + f"\nSize: {len(self)}"
         )
 
@@ -50,7 +47,7 @@ class Graph:
         """Indicate if graph is directed."""
         return self._directed
 
-    def neighbours(self, node: NodeVal) -> Set[NodeVal]:
+    def neighbours(self, node: NodeVal) -> set[NodeVal]:
         """Get neighbours of a given node."""
         return self._nodes[node]
 
@@ -74,9 +71,7 @@ class Graph:
         else:
             self.add_neighbour(neighbour, node)
 
-    def traverse(
-        self, node: NodeVal, method: TraverseMethod
-    ) -> Generator[NodeVal, None, None]:
+    def traverse(self, node: NodeVal, method: TraverseMethod) -> Generator[NodeVal, None, None]:
         """Traverse graph nodes using given method."""
         if method is TraverseMethod.BFS:
             container = queue.Queue()
@@ -85,7 +80,7 @@ class Graph:
         else:
             raise ValueError("Invalid traverse method")
 
-        discovered: Set[NodeVal] = set()
+        discovered: set[NodeVal] = set()
         container.put(node)
 
         while not container.empty():
