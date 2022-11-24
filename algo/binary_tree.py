@@ -53,7 +53,7 @@ class BinaryTreeNode:
             for value in self.right._traverse_pre_order():
                 yield value
 
-    def _r_traverse_pre_order(self, method: TraversalMethod) -> NodeValGen:
+    def _r_traverse_pre_order(self) -> NodeValGen:
         yield self.value
 
         if self.right:
@@ -76,7 +76,7 @@ class BinaryTreeNode:
             for value in self.right._traverse_in_order():
                 yield value
 
-    def _r_traverse_in_order(self, method: TraversalMethod) -> NodeValGen:
+    def _r_traverse_in_order(self) -> NodeValGen:
         if self.right:
             for value in self.right._r_traverse_in_order():
                 yield value
@@ -99,7 +99,7 @@ class BinaryTreeNode:
 
         yield self.value
 
-    def _r_traverse_post_order(self, method: TraversalMethod) -> NodeValGen:
+    def _r_traverse_post_order(self) -> NodeValGen:
         if self.right:
             for value in self.right._r_traverse_post_order():
                 yield value

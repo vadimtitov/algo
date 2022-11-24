@@ -112,7 +112,8 @@ def make_tree(x: list) -> BinarySearchTreeNode:
 
 def main():
     root = make_tree([5, 4, 6, 1, 3, -88, -90])
-    print(root)
+    for i in reversed(root):
+        print(i)
 
 
 if __name__ == "__main__":
