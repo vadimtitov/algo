@@ -12,13 +12,6 @@ class Node:
     prev: Node | None = None
     next: Node | None = None
 
-    def delete(self) -> None:
-        """Delete this node from list."""
-        if self.prev:
-            self.prev.next = self.next
-        if self.next:
-            self.next.prev = self.prev
-
 
 class DoubleLinkedList:
     """Double linked list."""
@@ -27,7 +20,6 @@ class DoubleLinkedList:
         """Initialize DL list"""
         self._head = None
         self._tail = None
-        self._size = 0
 
         for e in args:
             self.push(e)
@@ -42,13 +34,9 @@ class DoubleLinkedList:
         """Get tail node of list."""
         return self._tail
 
-    def __len__(self) -> int:
-        """Get length of list."""
-        return self._size
-
     def empty(self) -> bool:
         """Check if list is empty."""
-        return self._size == 0
+        return not self._head and not self._tail
 
     def push(self, value: Any) -> Node:
         """Push value to the end of the list."""
@@ -61,7 +49,6 @@ class DoubleLinkedList:
             node.prev = self._tail
 
         self._tail = node
-        self._size += 1
         return node
 
     def lpush(self, value: Any) -> Node:
@@ -75,7 +62,6 @@ class DoubleLinkedList:
             node.next = self._head
 
         self._head = node
-        self._size += 1
         return node
 
     def pop(self) -> Any:
@@ -91,7 +77,6 @@ class DoubleLinkedList:
         else:
             self._head = None
 
-        self._size -= 1
         return value
 
     def lpop(self) -> Any:
@@ -107,8 +92,20 @@ class DoubleLinkedList:
         else:
             self._tail = None
 
-        self._size -= 1
         return value
+
+    def delete(self, node: Node) -> None:
+        """Delete a node from list."""
+        if node.next:
+            node.next.prev = node.prev
+
+        if node.prev:
+            node.prev.next = node.next
+        elif node.next:
+            self._head = self._head.next
+        else:
+            self._head = None
+            self._tail = None
 
     def __iter__(self) -> Generator[Any, None, None]:
         """Generate list values."""
@@ -135,12 +132,18 @@ class DoubleLinkedList:
 
 def main():
     x = DoubleLinkedList(1,2,3)
-    print(x, "size ", len(x), x.head, x.tail); x.pop()
-    print(x, "size ", len(x), x.head, x.tail); x.pop()
-    print(x, "size ", len(x), x.head, x.tail); x.pop()
-    print(x, "size ", len(x), x.head, x.tail)
-    print(x.pop())
+    x = DoubleLinkedList()
+    node = x.push(1)
+    x.push(2)
+    print(x)
+    x.delete(node)
+    print(x)
 
+    x = DoubleLinkedList()
+    node = x.push(3)
+    print(x)
+    x.delete(node)
+    print(x)
 
 if __name__ == "__main__":
     main()
